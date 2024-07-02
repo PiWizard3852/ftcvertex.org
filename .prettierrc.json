@@ -1,0 +1,20 @@
+{
+  "semi": false,
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "singleAttributePerLine": true,
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "importOrder": [
+    "^@builder.io/(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^~/db/(.*)$",
+    "^~/components/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "tailwindAttributes": ["class"]
+}

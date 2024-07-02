@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "ftcvertex.org",
+  "short_name": "ftcvertex.org",
+  "start_url": ".",
+  "display": "standalone",
+  "description": "The official website of FTC team 15534 VERTEX"
+}
