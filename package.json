@@ -25,7 +25,6 @@
   "devDependencies": {
     "@builder.io/qwik": "^1.6.0",
     "@builder.io/qwik-city": "^1.6.0",
-    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/eslint": "^8.56.10",
     "@types/locomotive-scroll": "^4.1.3",

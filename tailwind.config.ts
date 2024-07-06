@@ -4,12 +4,12 @@ export default {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     colors: {
-      black: '#000000',
+      branding: '#9a1d2f',
+      border: '#57534e',
     },
-    aspectRatio: {
-      animation: '16 / 9',
+    screens: {
+      sm: '640px',
     },
-    screens: {},
   },
   corePlugins: {
     aspectRatio: false,

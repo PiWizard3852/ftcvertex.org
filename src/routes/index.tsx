@@ -7,8 +7,8 @@ import {
 } from '@builder.io/qwik';
 
 export default component$(() => {
-  const frameCount = 175 as const;
-  const firstFrame = 66 as const;
+  const frameCount = 181 as const;
+  const firstFrame = 1 as const;
 
   const canvas = useSignal<HTMLCanvasElement>();
 
@@ -66,27 +66,28 @@ export default component$(() => {
         Math.ceil(scrollFraction * frameCount),
       );
 
-      requestAnimationFrame(() => {
-        context?.drawImage(
-          images.value ? images.value[frameIndex + 1] : new Image(),
-          0,
-          0,
-        );
-      });
+      if (context) {
+        requestAnimationFrame(() => {
+          context.filter = 'brightness(200%)';
+
+          context?.drawImage(
+            images.value ? images.value[frameIndex + 1] : new Image(),
+            0,
+            0,
+          );
+        });
+      }
     }),
   );
 
   return (
     <>
-      <canvas
-        class={
-          'max-w-screen fixed left-[50%] top-[50%] max-h-screen -translate-x-[50%] -translate-y-[50%] duration-1000 ' +
-          (mounted.value ? 'opacity-100' : 'opacity-0')
-        }
-        width={1920}
-        height={1080}
-        ref={canvas}
-      />
+        <canvas
+          class={'max-w-screen fixed left-[50%] top-[50%] z-0 h-screen -translate-x-[50%] -translate-y-[50%] backdrop-brightness-200 duration-1000 ' + (mounted.value ? 'opacity-100' : 'opacity-0')}
+          width={1920}
+          height={1080}
+          ref={canvas}
+        />
       <div class='h-[500vh] w-full' />
     </>
   );
