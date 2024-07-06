@@ -20,7 +20,7 @@ export default component$(() => {
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(async () => {
     for (let i = firstFrame; i < frameCount + firstFrame; i++) {
-      imageUrls.push(`/render/${i.toString().padStart(3, '0')}.png`);
+      imageUrls.push(`/render/${i.toString().padStart(4, '0')}.jpg`);
     }
 
     images.value = (await Promise.all(
@@ -42,7 +42,7 @@ export default component$(() => {
     )) as HTMLImageElement[];
 
     const image = new Image();
-    image.src = `/render/${firstFrame.toString().padStart(3, '0')}.png`;
+    image.src = imageUrls[0];
 
     image.onload = () => {
       canvas.value?.getContext('2d')?.drawImage(image, 0, 0);
