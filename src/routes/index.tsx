@@ -45,7 +45,12 @@ export default component$(() => {
     image.src = imageUrls[0];
 
     image.onload = () => {
-      canvas.value?.getContext('2d')?.drawImage(image, 0, 0);
+        const context = canvas.value?.getContext('2d');
+
+        if (context) {
+            context.filter = 'brightness(200%)';
+            context.drawImage(image, 0, 0);
+        }
     };
 
     mounted.value = true;
@@ -70,7 +75,7 @@ export default component$(() => {
         requestAnimationFrame(() => {
           context.filter = 'brightness(200%)';
 
-          context?.drawImage(
+          context.drawImage(
             images.value ? images.value[frameIndex + 1] : new Image(),
             0,
             0,
