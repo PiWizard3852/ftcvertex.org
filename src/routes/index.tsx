@@ -11,20 +11,22 @@ export default component$(() => {
   const firstFrame = 66 as const;
 
   const canvas = useSignal<HTMLCanvasElement>();
-  const image = useSignal<HTMLImageElement>();
+  const images: HTMLImageElement[] = [];
 
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
     for (let i = firstFrame; i < frameCount + firstFrame; i++) {
       const image = new Image();
       image.src = `/render/${i.toString().padStart(3, "0")}.png`
+
+      images.push(image);
     }
 
-    image.value = new Image();
-    image.value.src = `/render/${firstFrame.toString().padStart(3, "0")}.png`;
+    const image = new Image();
+    image.src = `/render/${firstFrame.toString().padStart(3, "0")}.png`;
 
-    image.value.onload = () => {
-      canvas.value?.getContext('2d')?.drawImage(image.value ?? new Image(), 0, 0);
+    image.onload = () => {
+      canvas.value?.getContext('2d')?.drawImage(image, 0, 0);
     }
   });
 
@@ -40,17 +42,12 @@ export default component$(() => {
       const scrollFraction = scrollTop / maxScrollTop;
 
       const frameIndex = Math.min(
-        frameCount + firstFrame - 2,
-        Math.ceil(scrollFraction * frameCount + firstFrame)
+        frameCount - 2,
+        Math.ceil(scrollFraction * frameCount)
       );
 
       requestAnimationFrame(() => {
-        if (image.value) {
-          image.value.src = `/render/${(frameIndex + 1).toString().padStart(3, "0")}.png`;
-
-          context?.clearRect(0, 0, context.canvas.width, context.canvas.height);
-          context?.drawImage(image.value, 0, 0);
-        }
+        context?.drawImage(images[frameIndex + 1], 0, 0);
       });
     }),
   );
