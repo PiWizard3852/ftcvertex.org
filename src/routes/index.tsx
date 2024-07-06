@@ -20,7 +20,9 @@ export default component$(() => {
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(async () => {
     for (let i = firstFrame; i < frameCount + firstFrame; i++) {
-      imageUrls.push(`https://raw.githubusercontent.com/PiWizard3852/ftcvertex.org/main/public/render/${i.toString().padStart(4, '0')}.jpg`);
+      imageUrls.push(
+        `https://raw.githubusercontent.com/PiWizard3852/ftcvertex.org/main/public/render/${i.toString().padStart(4, '0')}.jpg`,
+      );
     }
 
     images.value = (await Promise.all(
@@ -45,12 +47,12 @@ export default component$(() => {
     image.src = imageUrls[0];
 
     image.onload = () => {
-        const context = canvas.value?.getContext('2d');
+      const context = canvas.value?.getContext('2d');
 
-        if (context) {
-            context.filter = 'brightness(200%)';
-            context.drawImage(image, 0, 0);
-        }
+      if (context) {
+        context.filter = 'brightness(200%)';
+        context.drawImage(image, 0, 0);
+      }
     };
 
     mounted.value = true;
@@ -87,12 +89,15 @@ export default component$(() => {
 
   return (
     <>
-        <canvas
-          class={'max-w-screen fixed left-[50%] top-[50%] z-0 h-screen -translate-x-[50%] -translate-y-[50%] backdrop-brightness-200 duration-1000 ' + (mounted.value ? 'opacity-100' : 'opacity-0')}
-          width={1920}
-          height={1080}
-          ref={canvas}
-        />
+      <canvas
+        class={
+          'max-w-screen fixed left-[50%] top-[50%] z-0 h-screen -translate-x-[50%] -translate-y-[50%] backdrop-brightness-200 transition-opacity duration-1000 ' +
+          (mounted.value ? 'opacity-100' : 'opacity-0')
+        }
+        width={1920}
+        height={1080}
+        ref={canvas}
+      />
       <div class='h-[500vh] w-full' />
     </>
   );

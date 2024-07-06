@@ -1,5 +1,5 @@
 import { Slot, component$, useVisibleTask$ } from '@builder.io/qwik';
-import { Link, type RequestHandler } from '@builder.io/qwik-city';
+import { Link, type RequestHandler, useLocation } from '@builder.io/qwik-city';
 
 import Lenis from 'lenis';
 
@@ -13,7 +13,7 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
 export default component$(() => {
   const pages = ['team', 'awards', 'matches', 'contact'] as const;
 
-  // let location = useLocation();
+  const location = useLocation();
 
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
@@ -43,16 +43,21 @@ export default component$(() => {
           <ul class='grid grid-cols-2 items-center gap-x-[16px] sm:flex sm:grid-cols-4'>
             {pages.map((page, key) => (
               <li
-                class='duration-200 hover:text-branding'
+                class={
+                  'duration-200 hover:text-branding' +
+                  (location.url.pathname === `/${page}/`
+                    ? ' text-branding'
+                    : '')
+                }
                 key={key}
               >
-                <Link href={page}>{page}</Link>
+                <Link href={'/' + page + '/'}>{page}</Link>
               </li>
             ))}
           </ul>
         </nav>
       </header>
-      <main class='min-h-full min-w-full'>
+      <main class='min-h-full min-w-full pt-[82px]'>
         <Slot />
       </main>
     </div>
