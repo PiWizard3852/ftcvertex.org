@@ -20,7 +20,7 @@ export default component$(() => {
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(async () => {
     for (let i = firstFrame; i < frameCount + firstFrame; i++) {
-      imageUrls.push(`/render/${i.toString().padStart(4, '0')}.jpg`);
+      imageUrls.push(`https://raw.githubusercontent.com/PiWizard3852/ftcvertex.org/main/public/render/${i.toString().padStart(4, '0')}.jpg`);
     }
 
     images.value = (await Promise.all(
