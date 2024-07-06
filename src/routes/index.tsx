@@ -11,16 +11,30 @@ export default component$(() => {
   const firstFrame = 66 as const;
 
   const canvas = useSignal<HTMLCanvasElement>();
-  const images: HTMLImageElement[] = [];
+
+  const imageUrls: string[] = [];
+  const images = useSignal<HTMLImageElement[]>();
 
   // eslint-disable-next-line qwik/no-use-visible-task
-  useVisibleTask$(() => {
+  useVisibleTask$(async () => {
     for (let i = firstFrame; i < frameCount + firstFrame; i++) {
-      const image = new Image();
-      image.src = `/render/${i.toString().padStart(3, "0")}.png`
-
-      images.push(image);
+      imageUrls.push(`/render/${i.toString().padStart(3, "0")}.png`);
     }
+
+    images.value = await Promise.all(
+      imageUrls.map((url) => new Promise((resolve, reject) => {
+        const image = new Image();
+        image.src = url;
+
+        image.onload = () => {
+          resolve(image);
+        };
+
+        image.onerror = (error) => {
+          reject(error)
+        };
+      })
+    )) as HTMLImageElement[];
 
     const image = new Image();
     image.src = `/render/${firstFrame.toString().padStart(3, "0")}.png`;
@@ -47,7 +61,7 @@ export default component$(() => {
       );
 
       requestAnimationFrame(() => {
-        context?.drawImage(images[frameIndex + 1], 0, 0);
+        context?.drawImage(images.value ? images.value[frameIndex + 1] : new Image(), 0, 0);
       });
     }),
   );
