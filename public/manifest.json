@@ -4,5 +4,7 @@
   "short_name": "ftcvertex.org",
   "start_url": ".",
   "display": "standalone",
-  "description": "The official website of FTC team 15534 VERTEX"
+  "description": "The official website of FTC team 15534 VERTEX",
+  "background_color": "#000000",
+  "theme_color": "#000000"
 }
