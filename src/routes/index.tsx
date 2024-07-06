@@ -19,7 +19,9 @@ export default component$(() => {
       const image = new Image();
       image.src = `/render/${i.toString().padStart(3, "0")}.png`
 
-      images.push(image);
+      image.onload = () => {
+        images.push(image);
+      }
     }
 
     const image = new Image();
@@ -34,21 +36,23 @@ export default component$(() => {
   useOnDocument(
     'scroll',
     $(() => {
-      const context = canvas.value?.getContext('2d');
+      if (images.length == frameCount) {
+        const context = canvas.value?.getContext('2d');
 
-      const html = document.documentElement;
-      const scrollTop = html.scrollTop;
-      const maxScrollTop = html.scrollHeight - window.innerHeight;
-      const scrollFraction = scrollTop / maxScrollTop;
+        const html = document.documentElement;
+        const scrollTop = html.scrollTop;
+        const maxScrollTop = html.scrollHeight - window.innerHeight;
+        const scrollFraction = scrollTop / maxScrollTop;
 
-      const frameIndex = Math.min(
-        frameCount - 2,
-        Math.ceil(scrollFraction * frameCount)
-      );
+        const frameIndex = Math.min(
+          frameCount - 2,
+          Math.ceil(scrollFraction * frameCount)
+        );
 
-      requestAnimationFrame(() => {
-        context?.drawImage(images[frameIndex + 1], 0, 0);
-      });
+        requestAnimationFrame(() => {
+          context?.drawImage(images[frameIndex + 1], 0, 0);
+        });
+      }
     }),
   );
 
