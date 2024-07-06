@@ -2,6 +2,7 @@ import { Slot, component$, useVisibleTask$ } from '@builder.io/qwik';
 import { Link, type RequestHandler, useLocation } from '@builder.io/qwik-city';
 
 import Lenis from 'lenis';
+import Logo from '~/logo.svg?jsx';
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   cacheControl({
@@ -32,13 +33,7 @@ export default component$(() => {
       <header class='fixed z-10 w-[calc(100%-32px)] rounded-[12px] border border-solid border-border uppercase backdrop-blur-md'>
         <nav class='flex items-center justify-between px-[20px] py-[12px]'>
           <Link href={'/'}>
-            <img
-              src='/favicon.svg'
-              alt='15534 VERTEX'
-              class='h-[40px] w-[40px]'
-              width='40'
-              height='40'
-            />
+            <Logo class='h-[40px] w-[40px]' />
           </Link>
           <ul class='grid grid-cols-2 items-center gap-x-[16px] sm:flex sm:grid-cols-4'>
             {pages.map((page, key) => (

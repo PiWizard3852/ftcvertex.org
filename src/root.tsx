@@ -19,6 +19,11 @@ export default component$(() => {
           rel='manifest'
           href='/manifest.json'
         />
+        <link
+          rel='icon'
+          type='image/x-icon'
+          href='/favicon.svg'
+        />
         <RouterHead />
         <ServiceWorkerRegister />
       </head>
