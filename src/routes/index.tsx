@@ -15,35 +15,41 @@ export default component$(() => {
   const imageUrls: string[] = [];
   const images = useSignal<HTMLImageElement[]>();
 
+  const mounted = useSignal(false);
+
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(async () => {
     for (let i = firstFrame; i < frameCount + firstFrame; i++) {
-      imageUrls.push(`/render/${i.toString().padStart(3, "0")}.png`);
+      imageUrls.push(`/render/${i.toString().padStart(3, '0')}.png`);
     }
 
-    images.value = await Promise.all(
-      imageUrls.map((url) => new Promise((resolve, reject) => {
-        const image = new Image();
-        image.src = url;
+    images.value = (await Promise.all(
+      imageUrls.map(
+        (url) =>
+          new Promise((resolve, reject) => {
+            const image = new Image();
+            image.src = url;
 
-        image.onload = () => {
-          resolve(image);
-        };
+            image.onload = () => {
+              resolve(image);
+            };
 
-        image.onerror = (error) => {
-          reject(error)
-        };
-      })
+            image.onerror = (error) => {
+              reject(error);
+            };
+          }),
+      ),
     )) as HTMLImageElement[];
 
     const image = new Image();
-    image.src = `/render/${firstFrame.toString().padStart(3, "0")}.png`;
+    image.src = `/render/${firstFrame.toString().padStart(3, '0')}.png`;
 
     image.onload = () => {
       canvas.value?.getContext('2d')?.drawImage(image, 0, 0);
-    }
-  });
+    };
 
+    mounted.value = true;
+  });
 
   useOnDocument(
     'scroll',
@@ -57,11 +63,15 @@ export default component$(() => {
 
       const frameIndex = Math.min(
         frameCount - 2,
-        Math.ceil(scrollFraction * frameCount)
+        Math.ceil(scrollFraction * frameCount),
       );
 
       requestAnimationFrame(() => {
-        context?.drawImage(images.value ? images.value[frameIndex + 1] : new Image(), 0, 0);
+        context?.drawImage(
+          images.value ? images.value[frameIndex + 1] : new Image(),
+          0,
+          0,
+        );
       });
     }),
   );
@@ -69,7 +79,10 @@ export default component$(() => {
   return (
     <>
       <canvas
-        class='fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] max-w-screen max-h-screen'
+        class={
+          'max-w-screen fixed left-[50%] top-[50%] max-h-screen -translate-x-[50%] -translate-y-[50%] duration-1000 ' +
+          (mounted.value ? 'opacity-100' : 'opacity-0')
+        }
         width={1920}
         height={1080}
         ref={canvas}

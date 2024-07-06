@@ -25,7 +25,7 @@ export default component$(() => {
 
   return (
     <>
-      <main class='min-h-screen min-w-screen bg-black'>
+      <main class='min-w-screen min-h-screen bg-black'>
         <Slot />
       </main>
     </>

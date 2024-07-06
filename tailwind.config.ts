@@ -4,7 +4,7 @@ export default {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     colors: {
-      black: "#000000",
+      black: '#000000',
     },
     aspectRatio: {
       animation: '16 / 9',
