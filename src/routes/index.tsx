@@ -91,7 +91,7 @@ export default component$(() => {
     <>
       <canvas
         class={
-          'max-w-screen fixed left-[50%] top-[50%] z-0 h-screen min-h-lvh -translate-x-[50%] -translate-y-[50%] backdrop-brightness-200 transition-opacity duration-1000 ' +
+          'max-w-screen min-h-lvh fixed left-[50%] top-[50%] z-0 h-screen -translate-x-[50%] -translate-y-[50%] backdrop-brightness-200 transition-opacity duration-1000 ' +
           (mounted.value ? 'opacity-100' : 'opacity-0')
         }
         width={1920}

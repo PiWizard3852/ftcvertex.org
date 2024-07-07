@@ -1,4 +1,4 @@
-import { Slot, component$, useVisibleTask$ } from '@builder.io/qwik';
+import { Slot, component$, useSignal, useVisibleTask$ } from '@builder.io/qwik';
 import { Link, type RequestHandler, useLocation } from '@builder.io/qwik-city';
 
 import Lenis from 'lenis';
@@ -10,6 +10,78 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
     maxAge: 5,
   });
 };
+
+export const DecryptText = component$(({ content }: { content: string }) => {
+  const chars =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-=_+[]{}|\\;:\'",.<>?/`~'.split(
+      '',
+    );
+
+  const decryptDuration = 2000 as const;
+
+  const decrypting = useSignal(false);
+  const encrypted = useSignal(content);
+
+  return (
+    <span
+      onMouseOver$={() => {
+        decrypting.value = true;
+
+        let text = content
+          .split('')
+          .map(() => chars[Math.floor(Math.random() * chars.length)])
+          .join('');
+
+        let progress = 0;
+        let lastTime: number;
+
+        const decrypt = (time: number) => {
+          if (text === content || !decrypting.value) {
+            decrypting.value = false;
+            return;
+          }
+
+          if (!lastTime) {
+            lastTime = time;
+          }
+
+          progress += time - lastTime;
+
+          text = content
+            .split('')
+            .map((char, index) => {
+              if (Math.random() < progress / decryptDuration) {
+                return char;
+              }
+
+              if (Math.random() < 0.1) {
+                return chars[Math.floor(Math.random() * chars.length)];
+              }
+
+              return text[index];
+            })
+            .join('');
+
+          console.log(text);
+          encrypted.value = text;
+
+          lastTime = time;
+
+          if (progress < decryptDuration) {
+            requestAnimationFrame(decrypt);
+          }
+        };
+
+        requestAnimationFrame(decrypt);
+      }}
+      onMouseOut$={() => {
+        decrypting.value = false;
+      }}
+    >
+      {decrypting.value ? encrypted.value : content}
+    </span>
+  );
+});
 
 export default component$(() => {
   const pages = ['team', 'awards', 'matches', 'contact'] as const;
@@ -46,7 +118,9 @@ export default component$(() => {
                 }
                 key={key}
               >
-                <Link href={'/' + page + '/'}>{page}</Link>
+                <Link href={'/' + page + '/'}>
+                  <DecryptText content={page} />
+                </Link>
               </li>
             ))}
           </ul>
