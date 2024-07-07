@@ -62,7 +62,6 @@ export const DecryptText = component$(({ content }: { content: string }) => {
             })
             .join('');
 
-          console.log(text);
           encrypted.value = text;
 
           lastTime = time;

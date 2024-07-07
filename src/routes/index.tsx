@@ -7,7 +7,7 @@ import {
 } from '@builder.io/qwik';
 
 export default component$(() => {
-  const frameCount = 181 as const;
+  const frameCount = 100 as const;
   const firstFrame = 1 as const;
 
   const canvas = useSignal<HTMLCanvasElement>();
@@ -50,7 +50,7 @@ export default component$(() => {
       const context = canvas.value?.getContext('2d');
 
       if (context) {
-        context.filter = 'brightness(200%)';
+        context.filter = '0%';
         context.drawImage(image, 0, 0);
       }
     };
@@ -75,7 +75,7 @@ export default component$(() => {
 
       if (context) {
         requestAnimationFrame(() => {
-          context.filter = 'brightness(200%)';
+          context.filter = `${scrollFraction * 200}%`;
 
           context.drawImage(
             images.value ? images.value[frameIndex + 1] : new Image(),
@@ -91,14 +91,14 @@ export default component$(() => {
     <>
       <canvas
         class={
-          'max-w-screen min-h-lvh fixed left-[50%] top-[50%] z-0 h-screen -translate-x-[50%] -translate-y-[50%] backdrop-brightness-200 transition-opacity duration-1000 ' +
+          'max-w-screen min-h-lvh fixed left-[50%] top-[50%] h-screen -translate-x-[50%] -translate-y-[50%] backdrop-brightness-200 transition-opacity duration-1000 ' +
           (mounted.value ? 'opacity-100' : 'opacity-0')
         }
         width={1920}
         height={1080}
         ref={canvas}
       />
-      <div class='h-[500vh] w-full' />
+      <div class='h-[120vh]' />
     </>
   );
 });
