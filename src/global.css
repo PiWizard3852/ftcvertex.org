@@ -19,6 +19,20 @@ body {
   color: white;
 }
 
+@font-face {
+  font-family: "PixelPowerline";
+  src: url("/fonts/pixel_powerline.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.custom-font {
+  font-family: "PixelPowerline", sans-serif;
+}
+
+
+
 html {
   background-color: black;
 }

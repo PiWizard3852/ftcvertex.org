@@ -81,13 +81,11 @@ export const DecryptText = component$(({ content }: { content: string }) => {
     </span>
   );
 });
-
 export default component$(() => {
   const pages = ['team', 'awards', 'matches', 'contact'] as const;
 
   const location = useLocation();
 
-  // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
     const lenis = new Lenis();
 
@@ -100,13 +98,13 @@ export default component$(() => {
   });
 
   return (
-    <div class='p-[16px]'>
-      <header class='fixed z-10 w-[calc(100%-32px)] rounded-[12px] border border-solid border-border uppercase backdrop-blur-md'>
-        <nav class='flex items-center justify-between px-[20px] py-[12px]'>
+    <div class="min-h-screen flex flex-col relative">
+      <header class="fixed z-10 w-[calc(100%-32px)] rounded-[12px] border border-solid border-border uppercase backdrop-blur-md m-4 shadow-lg">
+        <nav class="flex items-center justify-between px-[20px] py-[12px]">
           <Link href={'/'}>
-            <Logo class='h-[40px] w-[40px]' />
+            <Logo class="h-[40px] w-[40px]" />
           </Link>
-          <ul class='grid grid-cols-2 items-center gap-x-[16px] sm:flex sm:grid-cols-4'>
+          <ul class="grid grid-cols-2 items-center gap-x-[16px] sm:flex sm:grid-cols-4 text-lg font-bold">
             {pages.map((page, key) => (
               <li
                 class={
@@ -117,7 +115,7 @@ export default component$(() => {
                 }
                 key={key}
               >
-                <Link href={'/' + page + '/'}>
+                <Link href={'/' + page}>
                   <DecryptText content={page} />
                 </Link>
               </li>
@@ -125,7 +123,7 @@ export default component$(() => {
           </ul>
         </nav>
       </header>
-      <main class='min-h-full min-w-full pt-[82px]'>
+      <main class="flex-1">
         <Slot />
       </main>
     </div>

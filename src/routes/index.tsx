@@ -1,104 +1,56 @@
-import {
-  $,
-  component$,
-  useOnDocument,
-  useSignal,
-  useVisibleTask$,
-} from '@builder.io/qwik';
+import { component$, useVisibleTask$ } from '@builder.io/qwik';
 
 export default component$(() => {
-  const frameCount = 100 as const;
-  const firstFrame = 1 as const;
-
-  const canvas = useSignal<HTMLCanvasElement>();
-
-  const imageUrls: string[] = [];
-  const images = useSignal<HTMLImageElement[]>();
-
-  const mounted = useSignal(false);
-
-  // eslint-disable-next-line qwik/no-use-visible-task
-  useVisibleTask$(async () => {
-    for (let i = firstFrame; i < frameCount + firstFrame; i++) {
-      imageUrls.push(
-        `https://raw.githubusercontent.com/PiWizard3852/ftcvertex.org/main/public/render/${i.toString().padStart(4, '0')}.jpg`,
-      );
-    }
-
-    images.value = (await Promise.all(
-      imageUrls.map(
-        (url) =>
-          new Promise((resolve, reject) => {
-            const image = new Image();
-            image.src = url;
-
-            image.onload = () => {
-              resolve(image);
-            };
-
-            image.onerror = (error) => {
-              reject(error);
-            };
-          }),
-      ),
-    )) as HTMLImageElement[];
-
-    const image = new Image();
-    image.src = imageUrls[0];
-
-    image.onload = () => {
-      const context = canvas.value?.getContext('2d');
-
-      if (context) {
-        context.filter = '0%';
-        context.drawImage(image, 0, 0);
-      }
-    };
-
-    mounted.value = true;
-  });
-
-  useOnDocument(
-    'scroll',
-    $(() => {
-      const context = canvas.value?.getContext('2d');
-
-      const html = document.documentElement;
-      const scrollTop = html.scrollTop;
-      const maxScrollTop = html.scrollHeight - window.innerHeight;
-      const scrollFraction = scrollTop / maxScrollTop;
-
-      const frameIndex = Math.min(
-        frameCount - 2,
-        Math.ceil(scrollFraction * frameCount),
-      );
-
-      if (context) {
-        requestAnimationFrame(() => {
-          context.filter = `${scrollFraction * 200}%`;
-
-          context.drawImage(
-            images.value ? images.value[frameIndex + 1] : new Image(),
-            0,
-            0,
-          );
+  useVisibleTask$(() => {
+    const videoElement = document.querySelector('video');
+    if (videoElement) {
+      const playPromise = videoElement.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          videoElement.muted = true;
+          videoElement.play();
         });
       }
-    }),
-  );
+    }
+  });
 
   return (
     <>
-      <canvas
-        class={
-          'max-w-screen min-h-lvh fixed left-[50%] top-[50%] h-screen -translate-x-[50%] -translate-y-[50%] backdrop-brightness-200 transition-opacity duration-1000 ' +
-          (mounted.value ? 'opacity-100' : 'opacity-0')
-        }
-        width={1920}
-        height={1080}
-        ref={canvas}
-      />
-      <div class='h-[120vh]' />
+      <div class='relative h-screen w-full overflow-hidden'>
+        <video
+          autoplay
+          muted
+          loop
+          playsInline
+          poster='video_thumbnail.jpg'
+          src='website_video.mp4'
+          class='absolute left-0 top-0 h-full w-full object-cover'
+        >
+          <p>
+            Your browser does not support HTML video. Please{' '}
+            <a href='website_video.mp4'>download the video</a> to watch it.
+          </p>
+        </video>
+        <div
+          class={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000`}
+        >
+          <div class='flex items-center space-x-4'>
+            <img
+              src="/vertex_logo.svg"
+              alt="Logo"
+              width="359" /* Actual image dimensions */
+              height="341"
+              class="h-[15rem] w-auto mr-10"
+            />
+            <div class='text-center'>
+              <h1 class='text-white custom-font mb-2 text-9xl font-bold'>
+                FTC 15534
+              </h1>
+              <p class='text-white custom-font text-7xl'>VERTEX ROBOTICS</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 });
