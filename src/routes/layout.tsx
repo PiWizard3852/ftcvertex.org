@@ -83,7 +83,18 @@ export const DecryptText = component$(({ content }: { content: string }) => {
 });
 
 export default component$(() => {
-  const pages = ['matches', 'contact'] as const;
+  const pages = [
+      {
+          name: 'matches',
+          url: 'https://ftcscout.org/teams/15534',
+          blank: true
+      },
+      {
+          name: 'contact',
+          url: 'mailto:vertex15534@gmail.com',
+          blank: true
+      }
+  ] as const;
 
   const location = useLocation();
 
@@ -110,14 +121,15 @@ export default component$(() => {
               <li
                 class={
                   'duration-200 hover:text-branding' +
-                  (location.url.pathname === `/${page}/`
+                  (location.url.pathname === `/${page.url}/`
                     ? ' text-branding'
                     : '')
                 }
                 key={key}
               >
-                <Link href={'/' + page}>
-                  <DecryptText content={page} />
+                <Link href={page.url} target={page.blank ? "_blank"
+                : "_self"}>
+                  <DecryptText content={page.name} />
                 </Link>
               </li>
             ))}
