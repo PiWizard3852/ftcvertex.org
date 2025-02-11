@@ -29,7 +29,7 @@ export default component$(() => {
         <div
           class={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000`}
         >
-          <div class='flex items-center space-x-4 text-[min(18vw,30vh)] mt-[76px]'>
+          <div class='select-none flex items-center space-x-4 text-[min(18vw,30vh)] mt-[76px]'>
             <img
               src="/favicon.svg"
               alt="Logo"
