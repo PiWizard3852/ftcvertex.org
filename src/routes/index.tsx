@@ -25,28 +25,23 @@ export default component$(() => {
           poster='video_thumbnail.jpg'
           src='website_video.mp4'
           class='absolute left-0 top-0 h-full w-full object-cover'
-        >
-          <p>
-            Your browser does not support HTML video. Please{' '}
-            <a href='website_video.mp4'>download the video</a> to watch it.
-          </p>
-        </video>
+        />
         <div
           class={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000`}
         >
-          <div class='flex items-center space-x-4'>
+          <div class='flex items-center space-x-4 text-[min(18vw,30vh)] mt-[76px]'>
             <img
-              src="/vertex_logo.svg"
+              src="/favicon.svg"
               alt="Logo"
-              width="359" /* Actual image dimensions */
+              width="359"
               height="341"
-              class="h-[15rem] w-auto mr-10"
+              class="h-[1.6em] w-auto mr-[2vw]"
             />
-            <div class='text-center'>
-              <h1 class='text-white custom-font mb-2 text-9xl font-bold'>
-                FTC 15534
+            <div class='text-center pixel-powerline'>
+              <h1 class='text-white mb-[.1em] font-bold'>
+                15534
               </h1>
-              <p class='text-white custom-font text-7xl'>VERTEX ROBOTICS</p>
+              <p class='text-white text-[.75em]'>VERTEX</p>
             </div>
           </div>
         </div>

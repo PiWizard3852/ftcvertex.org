@@ -81,8 +81,9 @@ export const DecryptText = component$(({ content }: { content: string }) => {
     </span>
   );
 });
+
 export default component$(() => {
-  const pages = ['team', 'awards', 'matches', 'contact'] as const;
+  const pages = ['matches', 'contact'] as const;
 
   const location = useLocation();
 
